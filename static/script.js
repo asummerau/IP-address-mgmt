@@ -4,7 +4,7 @@ function loadIPAddresses() {
     if (subnet) {
         var tableHtml = '<h2>IP Addresses in Subnet: ' + subnet + '</h2>';
         tableHtml += '<table>';
-        tableHtml += '<thead><tr><th>IP Address</th><th>Comment</th><th>In Use</th></tr></thead>';
+        tableHtml += '<thead><tr><th>IP Address</th><th class="middle-header">Comment</th><th>In Use</th></tr></thead>';
         tableHtml += '<tbody>';
 
         // Remove the following line:
@@ -32,7 +32,7 @@ function loadIPAddresses() {
                             tableHtml += '<td><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '" readonly></td>';
                             tableHtml += '<td><input type="checkbox" id="in_use_' + i + '" ' + (row.in_use ? 'checked' : '') + ' readonly></td>';
                         } else {
-                            tableHtml += '<td><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '"></td>';
+                            tableHtml += '<td class="middle-cell"><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '"></td>';
                             tableHtml += '<td><input type="checkbox" id="in_use_' + i + '" ' + (row.in_use ? 'checked' : '') + ' onchange="handleCheckboxChange(this, this.parentNode.parentNode)"></td>';
                         }
                         tableHtml += '</tr>';

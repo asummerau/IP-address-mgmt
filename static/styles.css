@@ -1,6 +1,6 @@
 table {
     border-collapse: collapse;
-    width: 90%;
+    width: 80%;
 }
 
 th, td {
@@ -18,8 +18,22 @@ th {
     background-color: #f2f2f2;
 }
 
-tbody tr:first-child,
-tbody tr:last-child {
+th:first-child, td:first-child {
+    width: 15%; 
+    padding: 8px; 
+}
+
+th.middle-header{
+    width: 75%;
+}
+
+td.middle-cell input[type="text"] {
+    width: 95%;
+}
+
+tbody tr:first-child input[type="text"] ,
+tbody tr:last-child input[type="text"] {
+    width: 95%; 
     background-color: rgba(128, 128, 128, 0.5);
     pointer-events: none;
 }
