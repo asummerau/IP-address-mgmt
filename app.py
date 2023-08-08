@@ -4,7 +4,7 @@ from netaddr import IPNetwork
 import json
 import os.path
 
-app = Flask(__name__, template_folder='template')
+app = Flask(__name__, static_folder='static', template_folder='template')
 
 # # Sample data
 # data = {
@@ -39,7 +39,7 @@ else:
 def index():
     df_json = df.to_json(orient='records')
     df_json = json.loads(df_json)
-    return render_template('home.html', df=df_json, av_subnets=subnets)
+    return render_template('index.html', df=df_json, av_subnets=subnets)
 
 
 @app.route('/getIPAddresses', methods=['GET'])

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IP Address Table</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Choose a Subnet:</h1>
+
+    <select id="subnet-select" onchange="loadIPAddresses()">
+        <option value="">-- Select a Subnet --</option>
+        {% for subnet in av_subnets %}
+        <option value="{{ subnet }}">{{ subnet }}</option>
+        {% endfor %}
+    </select>
+
+    <div id="save-button-container" style="display: none;">
+        <button onclick="saveData()" class="save-button">Save</button>
+    </div>
+
+    <div id="ip-addresses-table-container"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
