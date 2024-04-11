@@ -97,3 +97,7 @@ function handleCheckboxChange(checkbox, row) {
         row.classList.remove('checked-row');
     }
 }
+
+function exportToExcel() {
+    window.location.href = '/exportExcel';
+}

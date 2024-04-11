@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import pandas as pd
 from netaddr import IPNetwork
 import json
@@ -74,7 +74,11 @@ def save():
         
     return 'Data saved successfully.'
     
-
+@app.route('/exportExcel', methods=['GET'])
+def export_excel():
+    excel_filename = 'ip_addresses.xlsx'
+    df.to_excel(excel_filename, index=False)
+    return send_file(excel_filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="9000", debug=True)
