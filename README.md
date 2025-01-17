@@ -42,6 +42,10 @@ docker run -d -p 9000:9000 ip-web-app
 ```bash
 docker ps
 ```
+To copy the `data.csv` file form the container, use
+```
+   docker cp <container_ID>:/IP_WEB_APP/data.csv .
+```
 
 To stop the docker image
 ```bash
