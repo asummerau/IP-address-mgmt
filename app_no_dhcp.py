@@ -13,7 +13,7 @@ app = Flask(__name__, static_folder='static', template_folder='template')
 #     'in_use': [False, False, False]
 # }
 
-filename = 'data.csv'
+filename = 'data_backup/data.csv'
 subnets = ['10.0.0.0/24', '10.10.100.0/24', '10.20.0.0/24']
 
 if os.path.exists(filename):
