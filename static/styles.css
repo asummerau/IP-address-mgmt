@@ -19,7 +19,6 @@ th {
     font-size: 14px;
 }
 
-
 td {
     font-size: 12px;
 }
@@ -42,8 +41,8 @@ td.middle-cell input[type="text"] {
     width: 95%;
 }
 
-tbody tr:first-child input[type="text"] ,
-tbody tr:last-child input[type="text"] {
+tbody tr:first-child input[type="text"],
+tbody tr:last-child input[type="text"]{
     width: 95%; 
     background-color: rgba(128, 128, 128, 0.5);
     pointer-events: none;
@@ -73,6 +72,16 @@ tbody tr:last-child input[type="checkbox"] {
 
 tr.checked-row {
     background-color: rgba(255, 0, 0, 0.2);
+}
+
+tr.dhcp-row input {
+    background-color: #DDD;
+    color: #888;
+    pointer-events: none;
+}
+
+tr.dhcp-row input[type="text"] {
+    width: 95%;
 }
 
 .save-button {
@@ -109,4 +118,3 @@ tr.checked-row {
 #export-excel-button-container {
     margin-top: 10px;
 }
-

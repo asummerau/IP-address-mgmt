@@ -26,12 +26,23 @@ function loadIPAddresses() {
                         if (row.in_use) {
                             tableHtml += ' class="checked-row"';
                         }
+                        if (row.comment === "DHCP address") {
+                            tableHtml += ' class="dhcp-row"';
+                        } 
                         tableHtml += '>';
                         tableHtml += '<td>' + row.ip_address + '</td>';
-                        if (i === 0 || i === df.length - 1) {
+                        
+                        // Check if this row is the first, last, or has "DHCP address" in the comment
+                        if (i === 0 || i === df.length - 1)
+                        {
                             tableHtml += '<td><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '" readonly></td>';
                             tableHtml += '<td><input type="checkbox" id="in_use_' + i + '" ' + (row.in_use ? 'checked' : '') + ' readonly></td>';
-                        } else {
+                        }
+                        else if (row.comment === "DHCP address") {
+                            tableHtml += '<td class="middle-cell"><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '" readonly></td>';
+                            tableHtml += '<td><input type="checkbox" id="in_use_' + i + '" ' + (row.in_use ? 'checked' : '') + ' readonly"></td>';
+                        }
+                        else {
                             tableHtml += '<td class="middle-cell"><input type="text" id="comment_' + i + '" value="' + (row.comment ? row.comment : '') + '"></td>';
                             tableHtml += '<td><input type="checkbox" id="in_use_' + i + '" ' + (row.in_use ? 'checked' : '') + ' onchange="handleCheckboxChange(this, this.parentNode.parentNode)"></td>';
                         }
