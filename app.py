@@ -16,9 +16,10 @@ app = Flask(__name__, static_folder='static', template_folder='template')
 
 filename = 'data.csv'
 subnets = [
-    {'subnet': '10.0.0.0/24', 'dhcp_range': ('10.0.0.10', '10.0.0.50')},
-    {'subnet': '10.10.100.0/24', 'dhcp_range': ()},
-    {'subnet': '10.20.100.0/24', 'dhcp_range': ()}
+    {'subnet': '10.0.0.0/24', 'dhcp_range': ('10.0.0.151', '10.0.0.250')},
+    {'subnet': '10.110.0.0/24', 'dhcp_range': ('10.110.0.11', '10.110.0.250')},
+    {'subnet': '10.110.110.0/24', 'dhcp_range': ('10.110.110.11', '10.110.110.250')},
+    {'subnet': '10.110.120.0/24', 'dhcp_range': ('10.110.120.11', '10.110.120.250')}
 ]
 
 def is_dhcp_address(ip, subnet_info):
