@@ -27,14 +27,13 @@ docker build -t ip-web-app .
 docker images
 ```
 
-3. Run the image
-
-```bash
-docker run --publish 9000:9000 ip-web-app
-```
-To run the docker in the background (detached mode), use
+3. To run the docker in the background (detached mode), use
 ```bash
 docker run -d -p 9000:9000 ip-web-app
+```
+To Share Data Between the Docker Container and the Host machine, use
+```bash
+docker run -d -v ~/Code/IP-address-mgmt/data_backup/:/IP_WEB_APP/data_backup -p 9000:9000 ip-web-app
 ```
 
 4. View the list of contianers
