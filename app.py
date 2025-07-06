@@ -15,6 +15,7 @@ app = Flask(__name__, static_folder='static', template_folder='template')
 # }
 
 filename = 'data_backup/data.csv'
+# define your IP pools and the dhcp range (if any)
 subnets = [
     {'subnet': '10.0.0.0/24', 'dhcp_range': ('10.0.0.151', '10.0.0.250')},
     {'subnet': '10.110.0.0/24', 'dhcp_range': ('10.110.0.11', '10.110.0.250')},
