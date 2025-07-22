@@ -26,7 +26,7 @@
    docker images
    ```
 
-3. Run the docker in the background (detached mode), and share data between the Docker Container and the Host machine
+3. Run the docker in the background (detached mode), and share data between the Docker Container and the Host machine. Configure the docker container to automatically restart when the Ubuntu host reboots.
    ```bash
    docker run --restart unless-stopped -d -v /<yourPath>/IP-address-mgmt/data_backup/:/IP_WEB_APP/data_backup -p 9000:9000 ip-web-app
    ```
