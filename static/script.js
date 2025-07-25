@@ -112,3 +112,100 @@ function handleCheckboxChange(checkbox, row) {
 function exportToExcel() {
     window.location.href = '/exportExcel';
 }
+
+// Subnet Modal Functions
+function showAddSubnetModal() {
+    document.getElementById('add-subnet-modal').style.display = 'block';
+}
+
+function hideAddSubnetModal() {
+    document.getElementById('add-subnet-modal').style.display = 'none';
+    // Clear form
+    document.getElementById('add-subnet-form').reset();
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    var modal = document.getElementById('add-subnet-modal');
+    if (event.target == modal) {
+        hideAddSubnetModal();
+    }
+}
+
+function addSubnet() {
+    var subnetIp = document.getElementById('subnet-ip').value.trim();
+    var prefixLength = document.getElementById('prefix-length').value;
+    var dhcpStart = document.getElementById('dhcp-start').value.trim();
+    var dhcpEnd = document.getElementById('dhcp-end').value.trim();
+
+    // Validate inputs
+    if (!subnetIp || !prefixLength) {
+        alert('Please fill in all required fields (Subnet IP and Prefix Length).');
+        return;
+    }
+
+    // Validate IP address format
+    if (!isValidIP(subnetIp)) {
+        alert('Please enter a valid IP address.');
+        return;
+    }
+
+    // Validate DHCP range if provided
+    if ((dhcpStart && !dhcpEnd) || (!dhcpStart && dhcpEnd)) {
+        alert('Please provide both DHCP start and end addresses, or leave both empty.');
+        return;
+    }
+
+    if (dhcpStart && dhcpEnd) {
+        if (!isValidIP(dhcpStart) || !isValidIP(dhcpEnd)) {
+            alert('Please enter valid DHCP range IP addresses.');
+            return;
+        }
+    }
+
+    // Construct subnet string
+    var subnetString = subnetIp + '/' + prefixLength;
+
+    // Prepare data to send
+    var subnetData = {
+        subnet: subnetString,
+        dhcp_start: dhcpStart || null,
+        dhcp_end: dhcpEnd || null
+    };
+
+    // Send to backend
+    fetch('/addSubnet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(subnetData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add new option to select dropdown
+            var select = document.getElementById('subnet-select');
+            var option = document.createElement('option');
+            option.value = subnetString;
+            option.text = subnetString;
+            select.appendChild(option);
+
+            // Hide modal and reset form
+            hideAddSubnetModal();
+            
+            alert('Subnet added successfully!');
+        } else {
+            alert('Error adding subnet: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error adding subnet. Please try again.');
+    });
+}
+
+function isValidIP(ip) {
+    var regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return regex.test(ip);
+}
