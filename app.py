@@ -31,6 +31,7 @@ def load_subnets():
                 else:
                     dhcp_range = None
                 subnets.append({
+                    'name': subnet_info.get('name', subnet_info['subnet']),  # Use subnet as name if not provided
                     'subnet': subnet_info['subnet'],
                     'dhcp_range': dhcp_range
                 })
@@ -38,10 +39,10 @@ def load_subnets():
     else:
         # Default subnets if file doesn't exist
         return [
-            {'subnet': '10.0.0.0/24', 'dhcp_range': ('10.0.0.151', '10.0.0.250')},
-            {'subnet': '10.110.0.0/24', 'dhcp_range': ('10.110.0.11', '10.110.0.250')},
-            {'subnet': '10.110.110.0/24', 'dhcp_range': ('10.110.110.11', '10.110.110.250')},
-            {'subnet': '10.110.120.0/24', 'dhcp_range': ('10.110.120.11', '10.110.120.250')}
+            {'name': 'DC Network', 'subnet': '10.0.0.0/24', 'dhcp_range': ('10.0.0.151', '10.0.0.250')},
+            {'name': 'Main Site Network', 'subnet': '10.110.0.0/24', 'dhcp_range': ('10.110.0.11', '10.110.0.250')},
+            {'name': 'Site A Network', 'subnet': '10.110.110.0/24', 'dhcp_range': ('10.110.110.11', '10.110.110.250')},
+            {'name': 'Site B Network', 'subnet': '10.110.120.0/24', 'dhcp_range': ('10.110.120.11', '10.110.120.250')}
         ]
 
 def save_subnets(subnets):
@@ -52,6 +53,7 @@ def save_subnets(subnets):
         if dhcp_range:
             dhcp_range = list(dhcp_range)
         subnets_data.append({
+            'name': subnet_info['name'],
             'subnet': subnet_info['subnet'],
             'dhcp_range': dhcp_range
         })
@@ -127,7 +129,7 @@ else:
 def index():
     df_json = df.to_json(orient='records')
     df_json = json.loads(df_json)
-    return render_template('index.html', df=df_json, av_subnets=[s['subnet'] for s in subnets])
+    return render_template('index.html', df=df_json, subnets=subnets)
 
 
 @app.route('/getIPAddresses', methods=['GET'])
@@ -168,9 +170,17 @@ def export_excel():
 def add_subnet():
     try:
         data = request.get_json()
+        subnet_name = data.get('name', '').strip()
         subnet_cidr = data.get('subnet')
         dhcp_start = data.get('dhcp_start')
         dhcp_end = data.get('dhcp_end')
+        
+        # Validate required fields
+        if not subnet_name:
+            return jsonify({'success': False, 'message': 'Subnet name is required'})
+        
+        if not subnet_cidr:
+            return jsonify({'success': False, 'message': 'Subnet CIDR is required'})
         
         # Validate subnet format
         try:
@@ -182,6 +192,11 @@ def add_subnet():
         existing_subnets = [s['subnet'] for s in subnets]
         if subnet_cidr in existing_subnets:
             return jsonify({'success': False, 'message': 'Subnet already exists'})
+        
+        # Check if name already exists
+        existing_names = [s['name'] for s in subnets]
+        if subnet_name in existing_names:
+            return jsonify({'success': False, 'message': 'Subnet name already exists'})
         
         # Validate DHCP range if provided
         dhcp_range = None
@@ -205,6 +220,7 @@ def add_subnet():
         
         # Add new subnet
         new_subnet = {
+            'name': subnet_name,
             'subnet': subnet_cidr,
             'dhcp_range': dhcp_range
         }

@@ -133,14 +133,15 @@ window.onclick = function(event) {
 }
 
 function addSubnet() {
+    var subnetName = document.getElementById('subnet-name').value.trim();
     var subnetIp = document.getElementById('subnet-ip').value.trim();
     var prefixLength = document.getElementById('prefix-length').value;
     var dhcpStart = document.getElementById('dhcp-start').value.trim();
     var dhcpEnd = document.getElementById('dhcp-end').value.trim();
 
     // Validate inputs
-    if (!subnetIp || !prefixLength) {
-        alert('Please fill in all required fields (Subnet IP and Prefix Length).');
+    if (!subnetName || !subnetIp || !prefixLength) {
+        alert('Please fill in all required fields (Subnet Name, Subnet IP, and Prefix Length).');
         return;
     }
 
@@ -168,6 +169,7 @@ function addSubnet() {
 
     // Prepare data to send
     var subnetData = {
+        name: subnetName,
         subnet: subnetString,
         dhcp_start: dhcpStart || null,
         dhcp_end: dhcpEnd || null
@@ -188,7 +190,7 @@ function addSubnet() {
             var select = document.getElementById('subnet-select');
             var option = document.createElement('option');
             option.value = subnetString;
-            option.text = subnetString;
+            option.text = subnetName + ' (' + subnetString + ')';
             select.appendChild(option);
 
             // Hide modal and reset form

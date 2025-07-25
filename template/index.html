@@ -10,8 +10,8 @@
     <div class="subnet-controls">
         <select id="subnet-select" onchange="loadIPAddresses()">
             <option value="">-- Select a Subnet --</option>
-            {% for subnet in av_subnets %}
-            <option value="{{ subnet }}">{{ subnet }}</option>
+            {% for subnet in subnets %}
+            <option value="{{ subnet.subnet }}">{{ subnet.name }} ({{ subnet.subnet }})</option>
             {% endfor %}
         </select>
         <button onclick="showAddSubnetModal()" class="add-subnet-button">Add Subnet</button>
@@ -23,6 +23,10 @@
             <span class="close" onclick="hideAddSubnetModal()">&times;</span>
             <h2>Add New Subnet</h2>
             <form id="add-subnet-form">
+                <div class="form-group">
+                    <label for="subnet-name">Subnet Name:</label>
+                    <input type="text" id="subnet-name" placeholder="e.g., Office Network" required>
+                </div>
                 <div class="form-group">
                     <label for="subnet-ip">Subnet IP Address:</label>
                     <input type="text" id="subnet-ip" placeholder="e.g., 192.168.1.0" required>
